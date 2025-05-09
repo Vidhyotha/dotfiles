@@ -1,0 +1,86 @@
+# Get a new line after the prompt
+add_newline = true
+
+# Use custom format
+format = """
+[╭─](bold green) $username$hostname$directory$git_branch$git_status$package$python$rust$golang$nodejs
+[╰─](bold green) $character"""
+
+# Disable the package module, hiding it from the prompt completely
+[package]
+disabled = false
+
+# Inserts a blank line between shell prompts
+# add_newline = true
+
+# Change the default prompt characters
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+vicmd_symbol = "[❮](bold green)"
+
+# Username display
+[username]
+style_user = "bold blue"
+style_root = "bold red"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+# Hostname display
+[hostname]
+ssh_only = false
+format = "[@$hostname](bold yellow) "
+disabled = false
+
+# Directory display
+[directory]
+truncation_length = 3
+truncation_symbol = "…/"
+home_symbol = "~"
+style = "bold cyan"
+
+# Git branch
+[git_branch]
+format = "on [$symbol$branch]($style) "
+symbol = " "
+style = "bold purple"
+
+# Git status
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
+style = "bold red"
+conflicted = "="
+ahead = "⇡"
+behind = "⇣"
+diverged = "⇕"
+untracked = "?"
+stashed = "$"
+modified = "!"
+staged = "+"
+renamed = "»"
+deleted = "✘"
+
+# Python environment
+[python]
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+symbol = " "
+style = "bold green"
+
+# Rust
+[rust]
+format = "[$symbol$version]($style) "
+symbol = " "
+style = "bold red"
+
+# Go
+[golang]
+format = "[$symbol$version]($style) "
+symbol = " "
+style = "bold blue"
+
+# Node.js
+[nodejs]
+format = "[$symbol$version]($style) "
+symbol = " "
+style = "bold green"

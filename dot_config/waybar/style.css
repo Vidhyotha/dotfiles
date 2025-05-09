@@ -1,0 +1,165 @@
+/* ~/.config/waybar/style.css */
+/* Import Pywal colors */
+@import url("/home/vidhyotha/.cache/wal/colors-waybar.css");
+
+/* Reset all styles */
+* {
+    border: none;
+    border-radius: 0;
+    padding: 0 0; /* Minimal vertical padding */
+    margin: 0 0; /* Minimal vertical margin */
+    min-height: 0;
+    font-family: "JetBrainsMono Nerd Font", monospace; /* Use a Nerd Font */
+    font-size: 14px; /* Adjust font size */
+}
+
+/* The whole bar */
+window#waybar {
+    background: @background; /* Use Pywal background */
+    color: @foreground; /* Use Pywal foreground */
+    border-bottom: 2px solid @color1; /* Accent border, use a prominent Pywal color */
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+/* Each module */
+#workspaces,
+#clock,
+#tray,
+#pulseaudio,
+#network,
+#backlight,
+#cpu,
+#memory {
+    padding: 0 10px; /* Horizontal padding for spacing */
+    margin: 0 3px; /* Horizontal margin between modules */
+    color: @foreground;
+    background-color: transparent; /* Make modules transparent */
+}
+
+/* Style for active workspace button */
+#workspaces button.active {
+    color: @color4; /* Use a distinct Pywal color for active state */
+    background-color: transparent;
+    border-bottom: 2px solid @color4; /* Underline active workspace */
+}
+
+/* Style for focused workspace button (if using Hyprland module) */
+#workspaces button.focused {
+    color: @color4;
+    background-color: @color0; /* Slightly different background for focus */
+}
+
+/* Style for urgent workspace button */
+#workspaces button.urgent {
+    color: @background;
+    background-color: @color3; /* Use a warning Pywal color */
+}
+
+#workspaces button:hover {
+    background-color: @color8; /* Use a subtle hover color */
+    color: @background;
+    border: none; /* Remove underline on hover */
+    box-shadow: inherit;
+    text-shadow: inherit;
+}
+
+/* Style modules on hover */
+#pulseaudio:hover,
+#network:hover,
+#backlight:hover,
+#cpu:hover,
+#memory:hover,
+#clock:hover {
+    background-color: @color8; /* Subtle hover background */
+    color: @background;
+}
+
+/* Specific module styling if needed */
+#clock {
+    font-weight: bold;
+    color: @color2; /* Use another accent color */
+}
+
+#pulseaudio {
+    color: @color3; /* Accent color */
+}
+
+#pulseaudio.muted {
+    color: @color1; /* Different color when muted */
+    background-color: transparent;
+}
+
+#backlight {
+    color: @color4; /* Accent color */
+}
+
+#network {
+    color: @color5; /* Accent color */
+}
+
+#network.disconnected {
+    color: @color1; /* Different color when disconnected */
+    background-color: transparent;
+}
+
+#tray {
+    background-color: transparent;
+    padding: 0 5px; /* Adjust padding for tray icons */
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: @color3; /* Highlight color for attention */
+}
+
+#battery {
+    color: @color6; /* Choose a Pywal color */
+    background-color: transparent;
+}
+
+#battery.charging, #battery.plugged {
+    color: @color2; /* Different color when charging/plugged */
+}
+
+#battery.warning {
+    color: @color3; /* Warning color */
+}
+
+#battery.critical {
+    color: @color1; /* Critical color */
+    background-color: @background; /* Maybe add a background */
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+/* Add blink animation if you want */
+@keyframes blink {
+    to {
+        background-color: @color1;
+        color: @background;
+    }
+}
+/* Add this to style your music module */
+#mpris {
+    color: @color2; /* Use a Pywal color */
+    background-color: transparent;
+    padding: 0 10px;
+    margin: 0 3px;
+}
+
+#mpris.paused {
+    color: @color3; /* Different color when paused */
+}
+
+#mpris:hover {
+    background-color: @color8;
+    color: @background;
+}

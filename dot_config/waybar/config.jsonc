@@ -1,0 +1,120 @@
+// ~/.config/waybar/config
+// Make sure you have installed:
+// - network-manager-applet (for nm-applet in tray)
+// - nmtui (for the network module on-click action)
+// - pavucontrol (or your preferred volume control)
+// - brightnessctl (for backlight module)
+{
+    // Define the layer and position
+    "layer": "top",
+    "position": "top",
+    "height": 35, // Adjust height as needed
+    // Choose the order of the modules
+    "modules-left": ["hyprland/workspaces", "mpris"],
+    "modules-center": ["clock"],
+    "modules-right": ["tray", "pulseaudio", "backlight", "network", "battery", "cpu", "memory"],
+
+    // Modules configuration
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "format-icons": {
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "10": "10"
+        }
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    },
+    "clock": {
+        "format": "{:%H:%M}", // Basic time format
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%", // Nerd Font charging icon
+        "format-plugged": "󰂄 {capacity}%", // Can be same as charging or different
+        "format-alt": "{time} {icon}", // Shows time remaining on alt format
+        // Icons for different battery levels (using Nerd Fonts)
+        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"] // From low to full
+    },
+
+    "cpu": {
+        "format": " {usage}%", // Nerd Font CPU icon
+        "tooltip": true,
+        "interval": 1
+    },
+    "memory": {
+        "format": "󰍛 {used:0.1f}G", // Nerd Font Memory icon
+        "tooltip": true,
+        "interval": 1
+    },
+    "backlight": {
+        // Requires brightnessctl
+        "device": "intel_backlight", // Adjust device name if needed (e.g., amdgpu_bl0)
+        "format": "{icon} {percent}%",
+        "format-icons": ["󰃞", "󰃟", "󰃠"], // Nerd Font brightness icons
+        "on-scroll-up": "brightnessctl set 5%+",
+        "on-scroll-down": "brightnessctl set 5%-",
+        "min-length": 6
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "tooltip": false,
+        "format-muted": "󰖁 Muted", // Nerd Font volume muted icon
+        "on-click": "pavucontrol", // Launch volume control
+        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+        "scroll-step": 5,
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""] // Nerd Font volume icons
+        }
+    },
+    "network": {
+        // Requires networkmanager
+        "format-wifi": "󰖩 {essid}", // Nerd Font Wifi icon
+        "format-ethernet": "󰈀 {ifname}: {ipaddr}/{cidr}", // Nerd Font Ethernet icon
+        "tooltip-format": "{ifname} via {gwaddr} ", // Nerd Font Route icon
+        "format-linked": "󰈀 {ifname} (No IP)",
+        "format-disconnected": "󰖪 Disconnected", // Nerd Font Wifi off icon
+        "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "on-click": "nm-connection-editor" // Launch network manager TUI on click
+        // Alternative: Use 'nm-connection-editor' for GUI
+    },
+    "mpris": {
+        "format": "{player_icon} {dynamic}",
+        "format-paused": "{player_icon} {status_icon} {dynamic}",
+        "player-icons": {
+            "default": "󰎆",
+            "mpv": "󰎆",
+            "spotify": "󰓇",
+            "firefox": "󰈹"
+        },
+        "status-icons": {
+            "paused": "󰏤"
+        },
+        "dynamic-len": 30,
+        "on-click": "playerctl play-pause",
+        "tooltip-format": "{player} : {title} - {artist}"
+    }
+}

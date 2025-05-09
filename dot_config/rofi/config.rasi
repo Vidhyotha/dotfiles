@@ -1,0 +1,114 @@
+/* ~/.config/rofi/config.rasi */
+
+configuration {
+    modi:                    "drun,run,window"; /* Modes to use */
+    icon-theme:              "Papirus";       /* Optional: Set an icon theme */
+    show-icons:              true;            /* Enable icons */
+    terminal:                "alacritty";     /* Terminal to use for 'run' mode */
+    drun-display-format:     "{icon} {name}"; /* Format for application launcher */
+    location:                0;               /* Centered */
+    yoffset:                 0;
+    xoffset:                 0;
+    fake-transparency:       false;           /* Set to true if your compositor doesn't support true transparency */
+    hide-scrollbar:          true;
+    bw:                      0;               /* Border width */
+    fullscreen:              false;
+    separator-style:         "none";
+    sidebar-mode:            false;
+    font:                    "JetBrainsMono Nerd Font 11"; /* Match your terminal/Waybar font */
+}
+
+@import "~/.cache/wal/colors-rofi-dark.rasi"
+
+/* Apply Pywal colors to elements */
+window {
+    background-color:        @background;
+    border:                  1px;
+    border-color:            @color1; /* Use an accent color for the border */
+    border-radius:           0px;     /* Add some rounding */
+    padding:                 15px;    /* Padding around the content */
+    width:                   35%;     /* Adjust width as needed */
+    height:                  40%;     /* Adjust height as needed */
+}
+
+mainbox {
+    background-color:        transparent; /* Inherit from window */
+    children:                [ "inputbar", "listview" ];
+    spacing:                 10px;    /* Space between input and list */
+    padding:                 10px;
+}
+
+inputbar {
+    background-color:        @color0; /* Slightly different background for input */
+    text-color:              @foreground;
+    padding:                 8px 12px;
+    border-radius:           0px;
+    children:                [ "prompt", "entry" ];
+    spacing:                 10px;
+}
+
+prompt {
+    background-color:        inherit;
+    text-color:              @color4; /* Use an accent color for the prompt */
+    enabled:                 true;
+    padding:                 0px 5px 0px 0px; /* Adjust padding */
+}
+
+entry {
+    background-color:        inherit;
+    text-color:              inherit;
+    placeholder:             "Search...";
+    placeholder-color:       @color8; /* Dim color for placeholder */
+    vertical-align:          0.5;
+    padding:                 0px;
+}
+
+listview {
+    background-color:        transparent;
+    columns:                 1;
+    lines:                   8;       /* Number of lines to show */
+    spacing:                 5px;     /* Space between elements */
+    cycle:                   true;
+    dynamic:                 true;
+    layout:                  vertical;
+}
+
+element {
+    background-color:        transparent;
+    text-color:              @foreground;
+    orientation:             horizontal;
+    border-radius:           0px;
+    padding:                 8px 10px; /* Padding within each element */
+}
+
+element-icon {
+    background-color:        transparent;
+    size:                    1.5em; /* Adjust icon size */
+    cursor:                  inherit;
+    vertical-align:          0.5;
+    padding:                 0px 10px 0px 0px; /* Space between icon and text */
+}
+
+element-text {
+    background-color:        transparent;
+    text-color:              inherit;
+    highlight:               inherit;
+    cursor:                  inherit;
+    vertical-align:          0.5;
+}
+
+/* Style for selected element */
+element selected {
+    background-color:        @foreground; /* Use accent color for selection */
+    text-color:              @background; /* Contrast text color for selection */
+    border-radius:           0px;
+}
+
+element selected element-icon {
+    background-color:        transparent;
+}
+
+element selected element-text {
+    background-color:        transparent;
+    text-color:              inherit;
+}
