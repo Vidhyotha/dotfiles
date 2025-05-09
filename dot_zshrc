@@ -1,0 +1,65 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# --- Basic Zsh Configuration ---
+# If you use Oh My Zsh, ZSH_THEME is set here. We use Starship instead.
+# ZSH_THEME=""
+
+# Case-insensitive completion
+HYPHEN_INSENSITIVE="true"
+
+# Enable command auto-correction
+ENABLE_CORRECTION="true"
+
+# Display red dots whilst waiting for completion
+# COMPLETION_WAITING_DOTS="true" # Can be noisy, uncomment if desired
+
+# --- History Configuration ---
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory             # Append history to the history file
+setopt HIST_EXPIRE_DUPS_FIRST  # Expire duplicate entries first
+setopt HIST_IGNORE_DUPS        # Ignore duplicates when adding to history
+setopt HIST_IGNORE_ALL_DUPS    # Ignore all duplicates in history file
+setopt HIST_SAVE_NO_DUPS       # Don't save duplicates
+setopt HIST_FIND_NO_DUPS       # Don't show duplicates when searching
+
+# --- Environment & Path ---
+export LANG=en_US.UTF-8
+# Add ~/.local/bin to PATH if it exists
+if [ -d "$HOME/.local/bin" ]; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
+# --- Pywal Configuration ---
+# Load pywal color sequences (run in background)
+[ -f "$HOME/.cache/wal/sequences" ] && (cat "$HOME/.cache/wal/sequences" &)
+
+# Apply pywal colors to the TTY if applicable
+if [ "$TERM" = "linux" ] && [ -f "$HOME/.cache/wal/colors-wal.vim" ]; then
+    _SEDCMD='s/.*\*color\([0-9]\{1,\}\).*#\([0-9a-fA-F]\{6\}\).*/\1 \2/p'
+    for i in $(sed -n "$_SEDCMD" ~/.cache/wal/colors-wal.vim | awk '$1 < 16 {printf "\\e]P%X%s", $1, $2}'); do
+        echo -en "$i"
+    done
+    clear
+fi
+
+# Pywal alias with custom update scripts
+alias wal="wal $@ && ~/.local/bin/update-starship-colors && sudo ~/.local/bin/update-sddm-colors && sudo ~/.local/bin/update-grub-theme"
+
+# Source zsh-autosuggestions
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Source zsh-syntax-highlighting
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# --- Prompt ---
+# Initialize Starship prompt (ensure it's near the end)
+eval "$(starship init zsh)"
+
+export PATH=$PATH:/home/vidhyotha/.spicetify
