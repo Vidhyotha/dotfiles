@@ -1,6 +1,15 @@
 # 🧰 Dotfiles Setup Guide
 
-Set up your system with my dotfiles and preferred tools using the steps below.
+A complete guide to set up your system with my customized environment using dotfiles and preferred tools.
+
+## 📋 Table of Contents
+- [Prerequisites](#-prerequisites-install-yay-aur-helper)
+- [Installation](#-install-required-packages)
+- [Configuration](#-apply-dotfiles)
+- [Post-Installation Tasks](#-post-installation-tasks)
+  - [Enable Bluetooth](#enable-bluetooth)
+  - [Set Default Shell](#set-zsh-as-default-shell)
+  - [SDDM Theme Setup](#-enable-sddm-theme-color-updates)
 
 ---
 
@@ -13,19 +22,14 @@ cd yay
 makepkg -si
 ```
 
----
-
 ## 📦 Install Required Packages
 
 ```bash
-yay -Syu \
-  zsh alacritty bibata-cursor-git brave-bin brightnessctl \
-  chezmoi git hypridle hyprland hyprlock hyprpaper \
-  mako nautilus nvim nsxiv papyrus-icon-theme-git \
-  python-pywal16 rofi sddm starship waybar zsh
+yay -Syu alacritty bibata-cursor-git bluez bluezutils brave-bin brightnessctl \
+    chezmoi git hypridle hyprland hyprlock hyprpaper mako nautilus nvim nsxiv \
+    papyrus-icon-theme-git pavucontrol python-pywal16 rofi sddm starship \
+    ttf-jetbrains-mono-nerd ttf-twmoji unzip waybar zsh
 ```
-
----
 
 ## 🛠️ Apply Dotfiles
 
@@ -33,24 +37,57 @@ yay -Syu \
 chezmoi init --apply https://github.com/Vidhyotha/dotfiles.git
 ```
 
----
+## 🚀 Post-Installation Tasks
 
-## ⚙️ Enable SDDM Theme Color Updates (No Password Required)
-
-My `update-sddm-colors.sh` script requires sudo access. To allow it without prompting for a password:
-
-### 1. Open the sudoers file with nvim:
+### Enable Bluetooth
 
 ```bash
-sudo EDITOR=nvim visudo
+systemctl start bluetooth.service
+systemctl enable bluetooth.service
 ```
 
-### 2. Scroll to the bottom (Ctrl + G), enter insert mode (`i`), and add:
+### Set ZSH as Default Shell
 
 ```bash
-your_username ALL=(ALL) NOPASSWD: /home/your_username/.local/bin/update-sddm-colors.sh
+chsh -s $(which zsh)
 ```
 
-Replace `your_username` with **your actual username**.
+> **Note**: Reboot your system for changes to take effect
+
+### ⚙️ Enable SDDM Theme Color Updates
+
+Two files will be downloaded to your Downloads folder:
+- `sddm.conf`
+- `pywal-theme.zip`
+
+These need to be moved to the correct locations:
+
+```bash
+# Move and extract theme files
+sudo mv ~/Downloads/pywal-theme.zip /usr/share/sddm/themes/
+sudo unzip /usr/share/sddm/themes/pywal-theme.zip
+sudo mv ~/Downloads/sddm.conf /etc/sddm.conf
+```
+
+#### Configure Passwordless SDDM Theme Updates
+
+The `update-sddm-colors.sh` script requires sudo access without password:
+
+1. **Open the sudoers file**:
+   ```bash
+   sudo EDITOR=nvim visudo
+   ```
+
+2. **Add the following line** at the bottom of the file (`SHIFT + G` then `i` to enter insert mode):
+   ```bash
+   your_username ALL=(ALL) NOPASSWD: /home/your_username/.local/bin/update-sddm-colors.sh
+   ```
+   
+   > **Important**: Replace `your_username` with your actual username
 
 ---
+
+## 💡 Additional Resources
+
+- [Project GitHub Repository](https://github.com/Vidhyotha/dotfiles)
+- [Report Issues](https://github.com/Vidhyotha/dotfiles/issues)

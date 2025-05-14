@@ -9,11 +9,11 @@ if [ ! -d "$WALLS" ]; then
     exit 1
 fi
 
-# Check for sxiv first (better image preview)
-if command -v sxiv &> /dev/null; then
-    # Use sxiv in thumbnail mode to select an image
+# Check for nsxiv first (better image preview)
+if command -v nsxiv &> /dev/null; then
+    # Use nsxiv in thumbnail mode to select an image
     cd "$WALLS" || exit
-    FILE=$(sxiv -t -o "$WALLS" 2>/dev/null)
+    FILE=$(nsxiv -t -otb "$WALLS" 2>/dev/null)
     # If multiple files are selected, take the first one
     FILE=$(echo "$FILE" | head -n1)
 else
