@@ -93,8 +93,8 @@ wallpaper_scheme = "m3-tonal-spot"
     builtin_ids = [ "btop", "gtk3", "gtk4", "kcolorscheme", "kitty", "qt", "alacritty" ]
 
         [theme.templates.user.gtk_settings]
-        input_path_modes = { dark = "~/.config/noctalia/templates/gtk-settings-dark.ini", light = "~/.config/noctalia/templates/gtk-settings-light.ini" }
-        output_path = [ "~/.config/gtk-3.0/settings.ini", "~/.config/gtk-4.0/settings.ini" ]
+        input_path_modes = { dark = "$XDG_CONFIG_HOME/noctalia/templates/gtk-settings-dark.ini", light = "$XDG_CONFIG_HOME/noctalia/templates/gtk-settings-light.ini" }
+        output_path = [ "$XDG_CONFIG_HOME/gtk-3.0/settings.ini", "$XDG_CONFIG_HOME/gtk-4.0/settings.ini" ]
 
 [widget.clock]
 color = "secondary"
