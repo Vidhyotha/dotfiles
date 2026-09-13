@@ -37,7 +37,7 @@ Only these locations are eligible for commits:
 - `~/.config/opencode/skills/` (skill definitions only)
 - `~/.local/bin/`
 - `~/.local/share/applications/` (the .desktop files and overrides)
-- `~/.dotfiles/README.md` origin note: the reinstate guide lives at `~/README.md`
+- `~/README.md` (the reinstate guide)
 
 ## Never commit these
 
