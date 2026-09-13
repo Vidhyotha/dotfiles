@@ -30,13 +30,12 @@ customizes more of the system, so it is not exhaustive. Any file added via the
 flow below becomes part of it and must be listed in the README's "What this
 tracks" section.
 
-- `~/.config/hypr/` (the whole Lua config)
-- `~/.config/noctalia/` (config.toml + the local cheatsheet plugin)
+- `~/.config/hypr/` (the whole Lua config, except `noctalia.lua` which noctalia regenerates)
+- `~/.config/noctalia/` (config.toml, the local cheatsheet plugin, and the `templates/` dir incl. `gtk-settings-{dark,light}.ini`)
 - `~/.config/fish/config.fish`
 - `~/.config/environment.d/`
 - `~/.config/uwsm/env`
-- `~/.config/kitty/` (kitty.conf and themes)
-- `~/.config/gtk-3.0/settings.ini` and `~/.config/gtk-4.0/settings.ini` (dark GTK theme for dialogs)
+- `~/.config/kitty/` (kitty.conf and themes, except `themes/noctalia.conf` which noctalia regenerates)
 - `~/.config/mimeapps.list`
 - `~/.config/opencode/skills/` (skill definitions only)
 - `~/.local/bin/`
@@ -73,6 +72,7 @@ than silently dropping it.
 - `~/.local/share/opencode/` (opencode session database)
 - `~/.config/opencode/` except `skills/` (node_modules, bin, package files)
 - `~/.dotfiles/` itself
+- noctalia-generated output files: `~/.config/hypr/noctalia.lua`, `~/.config/kitty/themes/noctalia.conf`, `~/.config/gtk-3.0/gtk.css`, `~/.config/gtk-4.0/gtk.css`, and `~/.config/gtk-{3,4}.0/settings.ini`. They change on every theme/mode change; the source of truth is the noctalia templates (tracked under `~/.config/noctalia/`).
 - scratch files like `~/luac.out`
 - anything still mounted under `/data`
 

@@ -6,20 +6,20 @@ Nothing is symlinked; every file lives in its normal place.
 
 ## What this tracks
 
-- `~/.config/hypr/` the whole Hyprland Lua config (binds, inputs, animations, monitors, decorations, variables, windowrules, workspaces, autostart, colors, noctalia.lua, xdph.conf)
-- `~/.config/noctalia/` shell config + the local keybind-cheatsheet plugin fork
+- `~/.config/hypr/` the whole Hyprland Lua config (binds, inputs, animations, monitors, decorations, variables, windowrules, workspaces, autostart, colors, xdph.conf). `noctalia.lua` is noctalia-generated, not tracked.
+- `~/.config/noctalia/` shell config + the local keybind-cheatsheet plugin fork + `templates/` (the gtk mode template)
 - `~/.config/fish/config.fish`
 - `~/.config/environment.d/` locale + TERMINAL
 - `~/.config/uwsm/env` BROWSER var
-- `~/.config/kitty/` kitty.conf + theme
+- `~/.config/kitty/` kitty.conf + theme (the `noctalia.conf` theme file is noctalia-generated, not tracked)
 - `~/.config/mimeapps.list` default apps
-- `~/.config/gtk-3.0/settings.ini` + `~/.config/gtk-4.0/settings.ini` written by a noctalia user template (`~/.config/noctalia/templates/gtk-settings-{dark,light}.ini`) so GTK dialogs (Zen's "Save Image As", portal pickers) follow the noctalia dark/light mode. Do not edit the settings.ini files manually; noctalia owns them.
+- `~/.config/noctalia/templates/gtk-settings-{dark,light}.ini` a noctalia user template (registered in `config.toml`) that writes `~/.config/gtk-3.0/settings.ini` and `~/.config/gtk-4.0/settings.ini` per theme mode, so GTK dialogs (Zen's "Save Image As", portal pickers) follow the noctalia dark/light toggle. Do not edit the settings.ini files manually; noctalia owns them.
 - `~/.config/opencode/skills/` webapp + unslop + dotfiles-sync
 - `~/.local/bin/` webapp-launch, webapp-install
 - `~/.local/share/applications/` all the `Hidden=true` launcher overrides, WhatsApp entry, btop fix
 - `~/Pictures/Wallpapers/` the wallpaper folder (the noctalia theme derives its palette from the active wallpaper)
 
-Not tracked on purpose: Zen profile (`~/.config/zen/`, contains logins and cookies, restore from backup), `.pki`, `.nv`, `.steam`, `.cargo`, `.cache`, `.npm`, `fish_variables`.
+Not tracked on purpose: Zen profile (`~/.config/zen/`, contains logins and cookies, restore from backup), `.pki`, `.nv`, `.steam`, `.cargo`, `.cache`, `.npm`, `fish_variables`. Also noctalia-generated outputs (`~/.config/hypr/noctalia.lua`, `~/.config/kitty/themes/noctalia.conf`, `~/.config/gtk-{3,4}.0/settings.ini` and `gtk.css`) — they are rewritten on every theme/mode change, so the templates under `~/.config/noctalia/` are the tracked source of truth.
 
 ## Daily usage
 
