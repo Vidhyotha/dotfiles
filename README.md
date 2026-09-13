@@ -13,7 +13,7 @@ Nothing is symlinked; every file lives in its normal place.
 - `~/.config/uwsm/env` BROWSER var
 - `~/.config/kitty/` kitty.conf + theme
 - `~/.config/mimeapps.list` default apps
-- `~/.config/gtk-3.0/settings.ini` + `~/.config/gtk-4.0/settings.ini` dark GTK theme (adw-gtk3-dark) so app dialogs (Zen's "Save Image As", portal pickers) render dark
+- `~/.config/gtk-3.0/settings.ini` + `~/.config/gtk-4.0/settings.ini` written by a noctalia user template (`~/.config/noctalia/templates/gtk-settings-{dark,light}.ini`) so GTK dialogs (Zen's "Save Image As", portal pickers) follow the noctalia dark/light mode. Do not edit the settings.ini files manually; noctalia owns them.
 - `~/.config/opencode/skills/` webapp + unslop + dotfiles-sync
 - `~/.local/bin/` webapp-launch, webapp-install
 - `~/.local/share/applications/` all the `Hidden=true` launcher overrides, WhatsApp entry, btop fix
