@@ -65,28 +65,41 @@ Only these locations are eligible for commits:
    Filter the untracked results to the whitelist above and drop the never-commit
    list before adding anything.
 
-2. Stage explicitly. Never run `git dotfiles add .` or `git add -A` from the
+2. Keep the README (`~/README.md`) accurate. Before committing, check whether
+   this change touches anything the README documents, and update it in the same
+   commit if so:
+   - tracked paths list (new dirs, removed dirs)
+   - keybindings table or gestures
+   - launcher overrides / visible apps
+   - installed or removed packages
+   - new skills under `~/.config/opencode/skills/`
+   - new system-level setup (mounts, services, hardware)
+   - new known quirks
+   If the change is not a documented fact in the README, leave the README alone.
+
+3. Stage explicitly. Never run `git dotfiles add .` or `git add -A` from the
    working tree, that would sweep in the whole home directory.
    ```bash
    git dotfiles add ~/.config/hypr ~/.config/noctalia ... <specific paths>
    ```
+   If the README changed, add it too: `git dotfiles add ~/README.md`.
 
-3. Review what is staged, and check nothing sensitive slipped in:
+4. Review what is staged, and check nothing sensitive slipped in:
    ```bash
    git dotfiles diff --cached --stat
    git dotfiles diff --cached
    ```
 
-4. Commit with a message that names the change, not the location:
+5. Commit with a message that names the change, not the location:
    `git dotfiles commit -m "<what changed>: <short summary>"`
 
-5. Push:
+6. Push:
    ```bash
    git dotfiles push
    ```
    If push fails on auth, stop and tell the user rather than guessing.
 
-6. Confirm the commit landed: `git dotfiles log --oneline -1`.
+7. Confirm the commit landed: `git dotfiles log --oneline -1`.
 
 ## When a change does not live in a tracked path
 

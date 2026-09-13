@@ -13,7 +13,7 @@ Nothing is symlinked; every file lives in its normal place.
 - `~/.config/uwsm/env` BROWSER var
 - `~/.config/kitty/` kitty.conf + theme
 - `~/.config/mimeapps.list` default apps
-- `~/.config/opencode/skills/` webapp + unslop
+- `~/.config/opencode/skills/` webapp + unslop + dotfiles-sync
 - `~/.local/bin/` webapp-launch, webapp-install
 - `~/.local/share/applications/` all the `Hidden=true` launcher overrides, WhatsApp entry, btop fix
 
