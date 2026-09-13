@@ -8,6 +8,7 @@ Nothing is symlinked; every file lives in its normal place.
 
 - `~/.config/hypr/` the whole Hyprland Lua config (binds, inputs, animations, monitors, decorations, variables, windowrules, workspaces, autostart, colors, xdph.conf). `noctalia.lua` is noctalia-generated, not tracked.
 - `~/.config/noctalia/` shell config + the local keybind-cheatsheet plugin fork + `templates/` (the gtk mode template)
+- `~/.local/state/noctalia/settings.toml` live noctalia settings written by the settings panel (bar layout, hot corners, shell fonts, lockscreen widgets, theme/palette/wallpaper scheme). This is the file the panel edits, so it is tracked; the other `~/.local/state/noctalia/` contents (plugin caches, community templates, notification/usage history) are regenerated and untracked.
 - `~/.config/fish/config.fish`
 - `~/.config/environment.d/` locale + TERMINAL
 - `~/.config/uwsm/env` BROWSER var

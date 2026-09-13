@@ -1,0 +1,114 @@
+config_version = 14
+
+[bar]
+order = [ "default" ]
+
+    [bar.default]
+    background_opacity = 0.54999998770654202
+    capsule_group = []
+    center = [ "clock" ]
+    end = [ "spacer_1", "tray", "network", "volume", "notifications", "session" ]
+    radius = 0
+    radius_bottom_left = 0
+    radius_bottom_right = 0
+    start = [ "launcher", "spacer_1", "workspaces", "spacer_1", "media" ]
+
+[hot_corners.top_left]
+action = "window_switcher"
+
+[location]
+auto_locate = true
+
+[lockscreen_widgets]
+enabled = false
+schema_version = 2
+widget_order = [ "lockscreen-login-box@eDP-1" ]
+
+    [lockscreen_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 768.0
+    cy = 645.60003662109375
+    output = "eDP-1"
+    placement_height = 864.0
+    placement_width = 1536.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+[notification]
+history_retention_hours = 1
+
+[plugin_settings."vidhyotha/keybind-cheatsheet"]
+columns = 1
+
+[plugins]
+enabled = [ "vidhyotha/keybind-cheatsheet" ]
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/official-plugins"
+    name = "official"
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/community-plugins"
+    name = "community"
+
+    [[plugins.source]]
+    kind = "path"
+    location = "/home/vidhyotha/.config/noctalia/plugins"
+    name = "local"
+
+[shell]
+font_family = "Bitstream Vera Sans"
+
+    [shell.panel]
+    transparency_mode = "glass"
+
+    [shell.screen_corners]
+    size = 1
+
+[theme]
+builtin = "Noctalia"
+community_palette = "Osaka jade"
+mode = "dark"
+shell_mode = "dark"
+source = "wallpaper"
+wallpaper_scheme = "muted"
+
+    [theme.templates]
+    builtin_ids = [ "alacritty", "btop", "gtk3", "gtk4", "hyprland", "kcolorscheme", "kitty", "qt" ]
+    community_ids = [ "opencode", "zen-browser", "neovim", "obsidian", "heroiclauncher", "steam", "tmux" ]
+
+[wallpaper]
+directory = "/home/vidhyotha/Pictures/Wallpapers"
+
+    [wallpaper.default]
+    path = "/home/vidhyotha/Pictures/Wallpapers/tree-tops.webp"
+
+    [wallpaper.last]
+    path = "/home/vidhyotha/Pictures/Wallpapers/tree-tops.webp"
+
+    [wallpaper.monitors.eDP-1]
+    path = "/home/vidhyotha/Pictures/Wallpapers/tree-tops.webp"
