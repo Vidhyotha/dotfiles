@@ -133,7 +133,7 @@ Our edits, all in that folder:
 - 600px single-column panel, 220px key gutter, color-coded pills, human labels (Left Mouse, Right Mouse, Scroll up/down)
 - `plugin.toml:96` width 600, and `columns = 1` in `~/.local/state/noctalia/settings.toml`
 
-Caveat: if a future update re-materializes the local source from the community cache, reapply the `MODIFIER_ORDER` patch manually.
+No update risk: `plugins update <source>` refreshes git sources by pulling their repo, and `local` is a path source, so there is nothing to fetch. Path-source plugins run straight from this folder; there is no materialized copy in `~/.local/state/noctalia/plugins/materialized/`, which is empty. A community update cannot touch it because the plugin id was renamed to `vidhyotha/` here and the community copy no longer exists. The edits are the source of truth and load on the next noctalia restart.
 
 ## Env and locale fixes
 
@@ -147,7 +147,7 @@ Caveat: if a future update re-materializes the local source from the community c
 
 ## How updates interact with these files
 
-`cachyos-hypr-noctalia` owns only `/etc/skel/` (the template for new users). Your `~/.config` files are not tracked by any package, so `pacman` never overwrites them. The noctalia cheatsheet plugin is the one fragile piece: `noctalia msg plugins update` can re-materialize it.
+`cachyos-hypr-noctalia` owns only `/etc/skel/` (the template for new users). Your `~/.config` files are not tracked by any package, so `pacman` never overwrites them. The noctalia cheatsheet plugin is a local path source and is not affected by plugin updates either (see above).
 
 ## Known quirks
 

@@ -111,6 +111,8 @@ README the single source of truth for reinstate steps.
 ## Patching the cheatsheet plugin
 
 Edits under `~/.config/noctalia/plugins/keybind-cheatsheet/` are normal tracked
-files, so commit them like anything else. Remember the caveat already in the
-README: a `noctalia msg plugins update` that re-materializes the local source
-will wipe these edits and need the `MODIFIER_ORDER` patch reapplied.
+files, so commit them like anything else. The plugin is a local `path` source
+and is immune to `noctalia msg plugins update`: updates only pull the git
+sources, and path plugins run directly from this folder. No reapply step is
+needed after an update. Restart noctalia to load path-source edits:
+`pkill -x noctalia; sleep 2; nohup uwsm app -- noctalia &`.
