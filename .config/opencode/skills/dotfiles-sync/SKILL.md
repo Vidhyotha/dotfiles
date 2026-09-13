@@ -25,7 +25,10 @@ and re-enable `git dotfiles config status.showUntrackedFiles no`.
 
 ## Tracked paths (whitelist)
 
-Only these locations are eligible for commits:
+These locations are eligible for commits. This list grows as the user
+customizes more of the system, so it is not exhaustive. Any file added via the
+flow below becomes part of it and must be listed in the README's "What this
+tracks" section.
 
 - `~/.config/hypr/` (the whole Lua config)
 - `~/.config/noctalia/` (config.toml + the local cheatsheet plugin)
@@ -38,6 +41,26 @@ Only these locations are eligible for commits:
 - `~/.local/bin/`
 - `~/.local/share/applications/` (the .desktop files and overrides)
 - `~/README.md` (the reinstate guide)
+
+## Customizations outside the whitelist
+
+A customization can land anywhere, not just in the tracked list. On every sync,
+scan for untracked files (the command in step 1 shows them) and check whether
+any belong to a path the user just customized, even if it is new. They belong
+in the repo if they are config, a dotfile, a small script, or a settings file.
+They stay out if they match the never-commit list or are big binaries, session
+data, caches, or files that only make sense on this machine.
+
+If a new path qualifies:
+
+1. Stage it: `git dotfiles add <new path>`.
+2. Add a matching bullet under the README's "What this tracks" section.
+3. Mention the path explicitly in the commit message body so it is clear the
+   whitelist grew.
+
+Then going forward it is a normal tracked path. If the path does not qualify,
+do not add it, and if it is machine-specific explain why it was skipped rather
+than silently dropping it.
 
 ## Never commit these
 
@@ -57,13 +80,15 @@ Only these locations are eligible for commits:
    ```bash
    cd ~ && git dotfiles status --short
    ```
-   `status.showUntrackedFiles no` hides untracked files, so also list them for
-   the whitelisted directories:
+   `status.showUntrackedFiles no` hides untracked files, so also list the
+   untracked files across `$HOME` (limited to dotfiles and config dirs, skip
+   ~/.cache, ~/.steam, ~/.local/share/opencode, and other noisy trees):
    ```bash
-   git dotfiles -c status.showUntrackedFiles=all status --short
+   git dotfiles -c status.showUntrackedFiles=all status --short -- .config .local .bash* .zsh* .gitconfig README.md
    ```
-   Filter the untracked results to the whitelist above and drop the never-commit
-   list before adding anything.
+   Filter the results to the whitelist above and drop the never-commit list
+   before adding anything, then run the flow under "Customizations outside the
+   whitelist" for any new paths.
 
 2. Keep the README (`~/README.md`) accurate. Before committing, check whether
    this change touches anything the README documents, and update it in the same
