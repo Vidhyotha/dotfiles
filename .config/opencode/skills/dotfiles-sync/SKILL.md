@@ -36,6 +36,7 @@ tracks" section.
 - `~/.config/environment.d/`
 - `~/.config/uwsm/env`
 - `~/.config/kitty/` (kitty.conf and themes)
+- `~/.config/gtk-3.0/settings.ini` and `~/.config/gtk-4.0/settings.ini` (dark GTK theme for dialogs)
 - `~/.config/mimeapps.list`
 - `~/.config/opencode/skills/` (skill definitions only)
 - `~/.local/bin/`
