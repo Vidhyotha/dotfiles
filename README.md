@@ -19,12 +19,12 @@ Nothing is symlinked; every file lives in its normal place.
 
 Not tracked on purpose: Zen profile (`~/.config/zen/`, contains logins and cookies, restore from backup), `.pki`, `.nv`, `.steam`, `.cargo`, `.cache`, `.npm`, `fish_variables`.
 
-## The git setup (already done on this machine)
+## Daily usage
+
+The alias is defined during the rebuild steps below:
 
 ```bash
-git init --bare ~/.dotfiles
-git config --global alias.dotfiles '!git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
-git dotfiles config status.showUntrackedFiles no
+alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
 ```
 
 Daily usage:
