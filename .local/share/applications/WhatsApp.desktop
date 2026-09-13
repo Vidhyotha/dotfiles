@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=WhatsApp
+Comment=WhatsApp
+Exec=/home/vidhyotha/.local/bin/webapp-launch https://web.whatsapp.com/
+Terminal=false
+Type=Application
+Icon=/home/vidhyotha/.local/share/applications/icons/WhatsApp.png
+StartupNotify=true

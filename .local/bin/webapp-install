@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# Create a desktop launcher for a web app.
+
+set -e
+
+ICON_DIR="$HOME/.local/share/applications/icons"
+DESKTOP_DIR="$HOME/.local/share/applications"
+
+if (( $# < 2 )); then
+    read -rp "Name> " APP_NAME
+    read -rp "URL> " APP_URL
+    ICON_REF=""
+else
+    APP_NAME="$1"
+    APP_URL="$2"
+    ICON_REF="$3"
+fi
+
+if [[ -z $APP_NAME || -z $APP_URL ]]; then
+    echo "Usage: webapp-install <name> <url> [icon-url]"
+    exit 1
+fi
+
+if [[ ! $APP_URL =~ ^[a-zA-Z][a-zA-Z0-9+.-]*: ]]; then
+    APP_URL="https://$APP_URL"
+fi
+
+mkdir -p "$ICON_DIR" "$DESKTOP_DIR"
+
+if [[ -z $ICON_REF ]]; then
+    FAVICON_URL="https://www.google.com/s2/favicons?domain=${APP_URL}&sz=128"
+    if curl -fsSL -o "$ICON_DIR/$APP_NAME.png" "$FAVICON_URL" && [[ -s $ICON_DIR/$APP_NAME.png ]]; then
+        ICON_REF="$APP_NAME.png"
+    else
+        read -rp "Could not fetch favicon. Icon URL> " ICON_REF
+    fi
+fi
+
+if [[ $ICON_REF =~ ^https?:// ]]; then
+    ICON_PATH="$ICON_DIR/$APP_NAME.png"
+    if ! curl -fsSL -o "$ICON_PATH" "$ICON_REF" || [[ ! -s $ICON_PATH ]]; then
+        echo "Error: Failed to download icon."
+        exit 1
+    fi
+else
+    ICON_PATH="$ICON_DIR/$ICON_REF"
+fi
+
+DESKTOP_FILE="$DESKTOP_DIR/$APP_NAME.desktop"
+
+cat >"$DESKTOP_FILE" <<EOF
+[Desktop Entry]
+Version=1.0
+Name=$APP_NAME
+Comment=$APP_NAME
+Exec=$HOME/.local/bin/webapp-launch $APP_URL
+Terminal=false
+Type=Application
+Icon=$ICON_PATH
+StartupNotify=true
+EOF
+
+chmod +x "$DESKTOP_FILE"
+echo "Created $APP_NAME — find it in the app launcher (Super + Space)."

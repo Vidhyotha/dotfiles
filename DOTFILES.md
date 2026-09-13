@@ -1,0 +1,157 @@
+# vidhyotha dotfiles, CachyOS + Hyprland + Noctalia
+
+Backup of the user-owned config for this machine (see "What this tracks" below).
+The repo itself is a bare git repo at `~/.dotfiles` with `$HOME` as its working tree.
+Nothing is symlinked; every file lives in its normal place.
+
+## What this tracks
+
+- `~/.config/hypr/` the whole Hyprland Lua config (binds, inputs, animations, monitors, decorations, variables, windowrules, workspaces, autostart, colors, noctalia.lua, xdph.conf)
+- `~/.config/noctalia/` shell config + the local keybind-cheatsheet plugin fork
+- `~/.config/fish/config.fish`
+- `~/.config/environment.d/` locale + TERMINAL
+- `~/.config/uwsm/env` BROWSER var
+- `~/.config/kitty/` kitty.conf + theme
+- `~/.config/mimeapps.list` default apps
+- `~/.config/opencode/skills/` webapp + unslop
+- `~/.local/bin/` webapp-launch, webapp-install
+- `~/.local/share/applications/` all the `Hidden=true` launcher overrides, WhatsApp entry, btop fix
+
+Not tracked on purpose: Zen profile (`~/.config/zen/`, contains logins and cookies, restore from backup), `.pki`, `.nv`, `.steam`, `.cargo`, `.cache`, `.npm`, `fish_variables`.
+
+## The git setup (already done on this machine)
+
+```bash
+git init --bare ~/.dotfiles
+git config --global alias.dotfiles '!git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+git dotfiles config status.showUntrackedFiles no
+```
+
+Daily usage:
+
+```bash
+git dotfiles add ~/.config/hypr/config/binds.lua   # or any path under $HOME
+git dotfiles status
+git dotfiles commit -m "message"
+git dotfiles push
+```
+
+## Rebuild from a fresh CachyOS install
+
+1. Install, create user `vidhyotha`, log in, run this whole setup as that user.
+2. Core system (come with the CachyOS Hyprland/Noctalia imaging):
+   `sudo pacman -S git`
+3. SSH key for GitHub (or use HTTPS):
+   `ssh-keygen -t ed25519`, add `~/.ssh/id_ed25519.pub` to github.com/settings/keys.
+4. Create an empty private repo named `dotfiles` on GitHub, then:
+   ```bash
+   git clone --bare git@github.com:vidhyotha/dotfiles.git ~/.dotfiles
+   git config --global alias.dotfiles '!git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+   git dotfiles config status.showUntrackedFiles no
+   git dotfiles checkout
+   ```
+   If checkout complains a file already exists (fresh machine after first login has skeleton files), move those out of the way first.
+5. Reinstall the extra packages we added:
+   `sudo pacman -S chromium nautilus zen-browser-bin paru`
+   Remove firefox if you do not want it: `sudo pacman -S firefox` was not present; `sudo pacman -Rns firefox`.
+6. First-run housekeeping, in order:
+   - Reload kitty config (`Ctrl+Shift+F5`) so the copy/paste maps load.
+   - `hyprctl reload` to apply binds/animations. Actually just restart the session once; the Lua config is read at startup.
+   - Restart noctalia if fixups are needed: `pkill -x noctalia; sleep 2; nohup uwsm app -- noctalia &`.
+7. Everything below that is not in git must be redone. It does not survive a reinstall by itself.
+
+## Not in git, redo after reinstall
+
+- Second SSD (`nvme0n1`, Crucial P3): was wiped and formatted ext4, mounted at `/data` via fstab. Reproduce:
+  `sudo mkfs.ext4 /dev/nvme0n1p1` (or reload the old partition), get the UUID with `blkid`, then
+  `UUID=<uuid> /data ext4 defaults,noatime 0 2` in `/etc/fstab`, `sudo mkdir /data`, `sudo mount -a`.
+  The previous LUKS partition on it was erased on purpose.
+- Data restore from the USB backup: `~/Documents`, `~/Projects` (idleon_clickers, Trading, qmk_firmware), `~/Pictures`, `~/Videos`, `~/PSP`, SplitFiction saves.
+- Zen profile `7onfnvsr.Default (beta)` back to `~/.config/zen/`, repoint `installs.ini` and `profiles.ini` to it and clear the Profile Groups cache if Zen makes a fresh profile the default.
+- `paru -S proton-pass-cli` was built but login is blocked for the free Proton account ("account not yet allowed to use our CLI"), so `/pass` in the launcher does nothing until the plan qualifies.
+
+## Current keybindings (binds.lua)
+
+Main mod is `SUPER`.
+
+| Keys | Action |
+|---|---|
+| `SUPER + W` | close window (moved from Q; Q is now unbound) |
+| `SUPER + Shift + Return` | browser (Zen) |
+| `SUPER + Return` | terminal (kitty, via uwsm app) |
+| `SUPER + E` | file manager (Nautilus) |
+| `SUPER + C` | universal copy (Ctrl+Insert to active window) |
+| `SUPER + V` | universal paste (Shift+Insert) |
+| `SUPER + Shift + C` | calculator (moved) |
+| `SUPER + Shift + V` | clipboard manager (moved) |
+| `SUPER + K` | keybind cheatsheet |
+| `SUPER + Esc` | power menu (`noctalia msg panel-toggle session`) |
+| `SUPER + Space` | launcher |
+| `SUPER + Shift + W` | wallpaper panel |
+| `SUPER + 1-0` | focus workspace 1-10 |
+| `SUPER + Shift + 1-0` | move window to workspace |
+| `SUPER + Alt + 1-0` | focus monitor |
+| `SUPER + Shift + Alt + 1-0` | move window to monitor |
+| `SUPER + D` / `SUPER + F` | fullscreen mode 1 / 0 |
+| `Ctrl + Shift + Esc` | btop |
+
+Every bind carries a `description` flag (the cheatsheet hides undocumented binds).
+Modifiers are ordered SUPER, SHIFT, ALT, CTRL everywhere.
+
+Trackpad gestures (inputs.lua): 4-finger horizontal switches workspace, 3-finger up enters fullscreen, 3-finger down exits. 3-finger left and window-close-gesture were removed. No gesture closes or floats windows; use the keys. `natural_scroll` is touchpad-only, mouse stays normal. `scroll_factor = 0.25`.
+
+Workspace animation speed is 1 and the windows animation uses the `quick` bezier (feels instant).
+Display scale is 1.25 (monitors.lua). Rounded corners 0, `gaps_out` 5.
+
+## Launcher (Noctalia)
+
+Shows every non-hidden `.desktop` in `/usr/share/applications` plus `~/.local/share/applications`.
+Visibility is controlled with `Hidden=true` override files in `~/.local/share/applications/`.
+These persist through updates (we hid the KDE leftovers, avahi, qv4l2, lstopo, dolphin, chromium, winetricks, protontricks, goverlay, nvidia-settings, vim, micro, shelly, uuctl, and CachyOS tools, pavucontrol, qt6ct, nwg-look, noctalia). Net result is about 15 apps. No packages were removed for this, all are just hidden.
+After changing override files run `update-desktop-database` and `noctalia msg config-reload`.
+
+`btop.desktop` forces `LANG=en_IN.UTF-8` in its Exec so the launcher can start it (root cause below).
+
+## Webapps (Omarchy-style port)
+
+- `~/.local/bin/webapp-launch <url>` runs `chromium --app=<url>` via uwsm: a frameless single-window app.
+- `~/.local/bin/webapp-install <name> <url> [icon-url]` downloads a favicon and writes a `.desktop` entry.
+- Windows come up as class `chrome-<host>-Default`. Webapps share Chromium's cookies.
+- Example in place: WhatsApp (`~/.local/share/applications/WhatsApp.desktop`).
+- What to avoid: installed-PWA windows gain an app toolbar, so the `--app=` wrapper is used instead. We tried PWA install once and reverted.
+- opencode skill: `~/.config/opencode/skills/webapp/SKILL.md` automates create/verify/remove.
+
+## Keybind cheatsheet plugin (local fork)
+
+`SUPER + K` opens `noctalia msg panel-toggle vidhyotha/keybind-cheatsheet:cheatsheet`.
+Lives at `~/.config/noctalia/plugins/keybind-cheatsheet/`, registered as a `path` plugin source so it is read directly and is immune to `plugins update community`. The community copy is disabled.
+
+Our edits, all in that folder:
+- modifier order in `service.luau` (SUPER, SHIFT, ALT, CTRL)
+- auto-refresh on open (panel.luau onOpen)
+- header buttons removed
+- 600px single-column panel, 220px key gutter, color-coded pills, human labels (Left Mouse, Right Mouse, Scroll up/down)
+- `plugin.toml:96` width 600, and `columns = 1` in `~/.local/state/noctalia/settings.toml`
+
+Caveat: if a future update re-materializes the local source from the community cache, reapply the `MODIFIER_ORDER` patch manually.
+
+## Env and locale fixes
+
+- Root cause of btop crashing: session `LANG=en_IN` without `.UTF-8`. Fixes, all user-owned and persistent:
+  - `~/.config/environment.d/locale.conf`: `LANG=en_IN.UTF-8`
+  - `~/.config/fish/config.fish`: `set -gx LANG en_IN.UTF-8`
+  - `~/.local/share/applications/btop.desktop`: Exec wraps with `env LANG=en_IN.UTF-8`
+- `~/.config/environment.d/session.conf`: `TERMINAL=kitty` so `Terminal=true` apps launch through kitty.
+- `~/.config/uwsm/env`: `BROWSER=zen-browser`.
+- Note: environment.d applies only at next login. A running noctalia keeps the old env until restarted.
+
+## How updates interact with these files
+
+`cachyos-hypr-noctalia` owns only `/etc/skel/` (the template for new users). Your `~/.config` files are not tracked by any package, so `pacman` never overwrites them. The noctalia cheatsheet plugin is the one fragile piece: `noctalia msg plugins update` can re-materialize it.
+
+## Known quirks
+
+- Discord on native Wayland and on XWayland both show a stale half-window when the tile shrinks (Hyprland issue #7909, unfixed). Left on XWayland default. Keep other windows out of its workspace.
+- Fastfetch greeting is disabled in `fish/config.fish` (empty `fish_greeting`).
+- Discord is pinned to the primary monitor via windowrules.
+- `SUPER+Q`: unbound by design (close is on `SUPER+W`).

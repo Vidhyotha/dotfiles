@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Launch a URL as a frameless web app in the dedicated chromium runtime.
+
+if [[ -z $1 ]]; then
+    echo "Usage: webapp-launch <url>"
+    exit 1
+fi
+
+CHROMIUM_BIN=$(sed -n 's/^Exec=\([^ %]*\).*/\1/p' /usr/share/applications/chromium.desktop 2>/dev/null | head -1)
+CHROMIUM_BIN=${CHROMIUM_BIN:-chromium}
+
+exec setsid uwsm app -- "$CHROMIUM_BIN" --app="$1" "${@:2}"
