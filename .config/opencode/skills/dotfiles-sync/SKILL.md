@@ -40,6 +40,7 @@ tracks" section.
 - `~/.config/opencode/skills/` (skill definitions only)
 - `~/.local/bin/`
 - `~/.local/share/applications/` (the .desktop files and overrides)
+- `~/Pictures/Wallpapers/` (the whole folder, they feed the noctalia theme)
 - `~/README.md` (the reinstate guide)
 
 ## Customizations outside the whitelist

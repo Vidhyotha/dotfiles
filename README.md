@@ -16,6 +16,7 @@ Nothing is symlinked; every file lives in its normal place.
 - `~/.config/opencode/skills/` webapp + unslop + dotfiles-sync
 - `~/.local/bin/` webapp-launch, webapp-install
 - `~/.local/share/applications/` all the `Hidden=true` launcher overrides, WhatsApp entry, btop fix
+- `~/Pictures/Wallpapers/` the wallpaper folder (the noctalia theme derives its palette from the active wallpaper)
 
 Not tracked on purpose: Zen profile (`~/.config/zen/`, contains logins and cookies, restore from backup), `.pki`, `.nv`, `.steam`, `.cargo`, `.cache`, `.npm`, `fish_variables`.
 
