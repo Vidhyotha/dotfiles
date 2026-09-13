@@ -1,0 +1,7 @@
+{
+  "name": "com.omarchy.link_router",
+  "description": "Opens links from Chromium web apps in the system default browser",
+  "path": "/home/vidhyotha/.local/share/chromium-link-router/host.py",
+  "type": "stdio",
+  "allowed_origins": ["chrome-extension://lobbcffncannbbemdodjimefhellaldb/"]
+}

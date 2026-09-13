@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "Omarchy Link Router",
+  "version": "1.0",
+  "description": "Opens links from Chromium web apps in the system default browser (Firefox) via xdg-open.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApW/HOcakUCNTp8WAnkkvMBpc1NfQE28ulPfJRz4fMIE30W8Z9MRQnBO9UsLkpSHlkLgrTtfzsNUvXcvmWm5KAthnM3r6avgmXG70caFL3y7ruQbCRP55s/Z2OJO6ZLrZq9+/HB8LVLLEC4Dw14S+pT7IvKHBL8lFMScJmfMzfJ0GzVIQc2SfZ+BlmFfGklLGTYwcYD5y0vr/XA1xfZHz767JhHDAnkhlGxvFDkv22CBDQzv97Ve/QEOchc8su4FhppL9u/Tqi7dPRmT4vKVPb9AXVt0XRSAr2dwXAiN/t7V8lQuDpYiSdopSLlaxMrhR73qTBLF3ECm0tkKH+dqn1QIDAQAB",
+  "permissions": ["tabs", "nativeMessaging"],
+  "background": { "service_worker": "background.js" }
+}

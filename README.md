@@ -14,6 +14,8 @@ Nothing is symlinked; every file lives in its normal place.
 - `~/.config/uwsm/env` BROWSER var
 - `~/.config/kitty/` kitty.conf + theme (the `noctalia.conf` theme file is noctalia-generated, not tracked)
 - `~/.config/mimeapps.list` default apps
+- `~/.config/chromium-flags.conf` + `~/.config/chromium/NativeMessagingHosts/com.omarchy.link_router.json` the link-router `--load-extension` flag and native-messaging manifest
+- `~/.local/share/chromium-link-router/` the link-router extension + host (routes web-app links to Zen); only this file lives under `~/.config/chromium/`, the rest of the profile is untracked session data
 - `~/.config/noctalia/templates/gtk-settings-{dark,light}.ini` a noctalia user template (registered in `config.toml`) that writes `~/.config/gtk-3.0/settings.ini` and `~/.config/gtk-4.0/settings.ini` per theme mode, so GTK dialogs (Zen's "Save Image As", portal pickers) follow the noctalia dark/light toggle. Do not edit the settings.ini files manually; noctalia owns them.
 - `~/.config/opencode/skills/` webapp + unslop + dotfiles-sync
 - `~/.local/bin/` webapp-launch, webapp-install
@@ -121,6 +123,7 @@ After changing override files run `update-desktop-database` and `noctalia msg co
 - `~/.local/bin/webapp-install <name> <url> [icon-url]` downloads a favicon and writes a `.desktop` entry.
 - Windows come up as class `chrome-<host>-Default`. Webapps share Chromium's cookies.
 - Example in place: WhatsApp (`~/.local/share/applications/WhatsApp.desktop`).
+- Links clicked inside web apps open in Zen, not Chromium, via the link router (`~/.local/share/chromium-link-router/`, a tiny MV3 extension + native host loaded through `~/.config/chromium-flags.conf`). OAuth popups stay in the app; a login that happens in a full new tab bounces to Zen. Reinstall with the omarchy-link-router `install.sh` if the flags file resets after an update.
 - What to avoid: installed-PWA windows gain an app toolbar, so the `--app=` wrapper is used instead. We tried PWA install once and reverted.
 - opencode skill: `~/.config/opencode/skills/webapp/SKILL.md` automates create/verify/remove.
 

@@ -30,6 +30,15 @@ Run `webapp-launch <url>` to test one in the current session. Give Chromium a fe
 - The first time Chromium ever runs it shows a Terms of Service page. Accept it once; the app window follows.
 - A web app window reports its Hyprland class as `chrome-<host>-Default` (for example `chrome-web.whatsapp.com__-Default`). Useful for window rules, not needed for basic use.
 
+## Link routing
+
+Links clicked inside a web app open in the daily browser (Zen), not Chromium. A small MV3 extension in `~/.local/share/chromium-link-router/` watches for tabs freshly created in *normal* windows — which is exactly what an `--app` window does when you click a link that targets a new tab/window — grabs the URL, closes the tab, and hands it to a native messaging host (`host.py`) that runs `xdg-open`, so it lands in the system default browser (Zen).
+
+- Loaded via `--load-extension` in `~/.config/chromium-flags.conf`; the host is registered in `~/.config/chromium/NativeMessagingHosts/com.omarchy.link_router.json`.
+- Popup windows (OAuth sign-in flows) are left in Chromium so logins keep working.
+- Quirk: if a site does its login in a full new tab instead of a popup, that tab gets routed to Zen too. Disable the extension (`chrome://extensions`) for that one login.
+- If links start opening in Chromium again after an update, the flags file was likely reset — re-add the `--load-extension` line, or reinstall (rerun the omarchy-link-router `install.sh`).
+
 ## To remove a web app
 
 Delete `~/.local/share/applications/<name>.desktop` and `~/.local/share/applications/icons/<name>.png`.
