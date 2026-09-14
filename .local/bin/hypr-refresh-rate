@@ -1,16 +1,17 @@
 #!/bin/sh
-# Apply the laptop panel refresh rate based on the AC power source.
-#   144 Hz while on AC power, 60 Hz otherwise.
-# Runs from udev (as root, on AC plug/unplug) and at Hyprland session start
-# (as the user). Idempotent; safe to re-run.
+# Apply the laptop panel refresh rate based on the ACPI platform profile
+# ("performance mode", controlled by Noctalia). 144 Hz for the
+# performance / max-power profiles, 60 Hz otherwise.
+# Runs from the hypr-refresh systemd user path unit on every mode change
+# and once at session start. Idempotent; safe to re-run.
 
 set -e
 
 monitor="${MONITOR_NAME:-eDP-1}"
 
-case "$(cat /sys/class/power_supply/ACAD/online 2>/dev/null)" in
-    1) mode="1920x1080@144" ;;
-    *) mode="1920x1080@60" ;;
+case "$(cat /sys/firmware/acpi/platform_profile 2>/dev/null)" in
+    performance|max-power) mode="1920x1080@144" ;;
+    *)                     mode="1920x1080@60" ;;
 esac
 
 lua="hl.monitor({ output=\"$monitor\", mode=\"$mode\", position=\"0x0\", scale=1.25 })"
