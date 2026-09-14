@@ -1,9 +1,0 @@
-[Unit]
-Description=Apply the laptop panel refresh rate from the performance profile
-
-[Service]
-Type=oneshot
-ExecStart=%h/.local/bin/hypr-refresh-rate
-
-[Install]
-WantedBy=default.target

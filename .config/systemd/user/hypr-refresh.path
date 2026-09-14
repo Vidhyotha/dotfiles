@@ -1,9 +1,0 @@
-[Unit]
-Description=Apply panel refresh rate when the ACPI platform profile changes
-Documentation=~/README.md
-
-[Path]
-PathChanged=/sys/firmware/acpi/platform_profile
-
-[Install]
-WantedBy=default.target

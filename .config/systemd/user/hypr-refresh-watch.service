@@ -1,0 +1,12 @@
+[Unit]
+Description=Watch the ACPI platform profile and reapply the panel refresh rate
+Documentation=~/README.md
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/hypr-refresh-watch
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

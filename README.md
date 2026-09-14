@@ -19,7 +19,7 @@ Nothing is symlinked; every file lives in its normal place.
 - `~/.config/noctalia/templates/gtk-settings-{dark,light}.ini` a noctalia user template (registered in `config.toml`) that writes `~/.config/gtk-3.0/settings.ini` and `~/.config/gtk-4.0/settings.ini` per theme mode, so GTK dialogs (Zen's "Save Image As", portal pickers) follow the noctalia dark/light toggle. Do not edit the settings.ini files manually; noctalia owns them.
 - `~/.config/opencode/skills/` webapp + unslop + dotfiles-sync
 - `~/.local/bin/` webapp-launch, webapp-install, hypr-refresh-rate
-- `~/.config/systemd/user/` hypr-refresh.path + hypr-refresh.service (watching the ACPI platform profile for refresh-rate changes)
+- `~/.config/systemd/user/` hypr-refresh-watch.service (watches the ACPI platform profile and reapplies the refresh rate on change)
 - `~/.local/share/applications/` all the `Hidden=true` launcher overrides, WhatsApp entry, btop fix
 - `~/Pictures/Wallpapers/` the wallpaper folder (the noctalia theme derives its palette from the active wallpaper)
 
@@ -156,7 +156,7 @@ No update risk: `plugins update <source>` refreshes git sources by pulling their
 
 `~/.local/bin/hypr-refresh-rate` sets the laptop panel to 144 Hz while the ACPI platform profile is `performance` or `max-power` (Noctalia's "performance mode") and 60 Hz for every other profile. The profile lives at `/sys/firmware/acpi/platform_profile`; Noctalia writes it and the laptop's performance-mode LED follows it.
 
-`~/.config/systemd/user/hypr-refresh.path` watches that file with inotify and triggers `hypr-refresh.service` (a oneshot running the script) on every change. Both units are enabled, so the rule is applied once at session start and again whenever the mode changes. The kernel driver notifies on profile writes, so this works without polling. If a bare `hyprctl reload` happens mid-session the panel reverts to its preferred 60 Hz until the next mode change or login.
+`~/.config/systemd/user/hypr-refresh-watch.service` runs `~/.local/bin/hypr-refresh-watch` (a small python inotify loop) which re-applies `hypr-refresh-rate` whenever the kernel signals a write to `/sys/firmware/acpi/platform_profile`. It applies once at startup and stays live across events. A systemd `PathChanged=` path unit was tried first and turned out unreliable on this sysfs file (missed writes made through power-profiles-daemon), which is why the watcher is a dedicated service instead. If a bare `hyprctl reload` happens mid-session the panel reverts to its preferred 60 Hz until the next mode change or login.
 
 ## How updates interact with these files
 
