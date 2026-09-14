@@ -151,6 +151,10 @@ No update risk: `plugins update <source>` refreshes git sources by pulling their
 - `~/.config/uwsm/env`: `BROWSER=zen-browser`.
 - Note: environment.d applies only at next login. A running noctalia keeps the old env until restarted.
 
+## Power-aware refresh rate
+
+`~/.local/bin/hypr-refresh-rate` sets the laptop panel to 144 Hz on AC power and 60 Hz otherwise. A udev rule runs it on every AC plug/unplug event (`/etc/udev/rules.d/99-power-refresh-rate.rules`), and the Hyprland autostart runs it once at session start. If a bare `hyprctl reload` happens mid-session it reverts to the panel's preferred 60 Hz until the next power event or login.
+
 ## How updates interact with these files
 
 `cachyos-hypr-noctalia` owns only `/etc/skel/` (the template for new users). Your `~/.config` files are not tracked by any package, so `pacman` never overwrites them. The noctalia cheatsheet plugin is a local path source and is not affected by plugin updates either (see above).

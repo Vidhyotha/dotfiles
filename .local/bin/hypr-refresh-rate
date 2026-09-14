@@ -1,0 +1,42 @@
+#!/bin/sh
+# Apply the laptop panel refresh rate based on the AC power source.
+#   144 Hz while on AC power, 60 Hz otherwise.
+# Runs from udev (as root, on AC plug/unplug) and at Hyprland session start
+# (as the user). Idempotent; safe to re-run.
+
+set -e
+
+monitor="${MONITOR_NAME:-eDP-1}"
+
+case "$(cat /sys/class/power_supply/ACAD/online 2>/dev/null)" in
+    1) mode="1920x1080@144" ;;
+    *) mode="1920x1080@60" ;;
+esac
+
+lua="hl.monitor({ output=\"$monitor\", mode=\"$mode\", position=\"0x0\", scale=1.25 })"
+
+apply() {
+    user="$1"
+    uid="$2"
+    sig="$3"
+    if [ "$(id -u)" -eq 0 ]; then
+        runuser -u "$user" -- env XDG_RUNTIME_DIR="/run/user/$uid" \
+            HYPRLAND_INSTANCE_SIGNATURE="$sig" hyprctl eval "$lua"
+    else
+        hyprctl eval "$lua"
+    fi
+}
+
+found=0
+for run_dir in /run/user/*/hypr/*/; do
+    [ -d "$run_dir" ] || continue
+    uid="${run_dir#/run/user/}"
+    uid="${uid%%/*}"
+    user=$(getent passwd "$uid" 2>/dev/null | cut -d: -f1)
+    [ -n "$user" ] || continue
+    sig=$(basename "${run_dir%/}")
+    apply "$user" "$uid" "$sig" || true
+    found=1
+done
+
+exit 0
