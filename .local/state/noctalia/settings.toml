@@ -89,6 +89,9 @@ font_family = "Bitstream Vera Sans"
     [shell.screen_corners]
     size = 1
 
+    [shell.window_switcher]
+    mru = true
+
 [theme]
 builtin = "Noctalia"
 community_palette = "Osaka jade"
