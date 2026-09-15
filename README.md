@@ -76,6 +76,7 @@ git dotfiles push
 - Bluetooth/USB stability fixes (system-level, not in git, mirror omarchy):
   - `/etc/modprobe.d/omarchy-usb-autosuspend.conf`: `options usbcore autosuspend=-1` (disables USB autosuspend globally; the Intel AX201 BT radio sits behind an internal USB port and auto-suspending it drops A2DP/HFP transports).
   - `/etc/NetworkManager/conf.d/omarchy-wifi-powersave.conf`: `[connection] wifi.powersave = 2` plus live `sudo iw dev wlan0 set power_save off` (combo radio coexistence stability).
+  - `/etc/udev/rules.d/50-camera-nosuspend.rules`: SunplusIT integrated camera (5986:215f) set to `power/control=on` permanently — same xHCI root as BT radio; runtime-suspend was delivering truncated UVC frames that Chromium showed as random black flashes. `exposure_dynamic_framerate` also reset to 0 (driver default).
 - Data restore from the USB backup: `~/Documents`, `~/Projects` (idleon_clickers, Trading, qmk_firmware), `~/Pictures`, `~/Videos`, `~/PSP`, SplitFiction saves.
 - Zen profile `7onfnvsr.Default (beta)` back to `~/.config/zen/`, repoint `installs.ini` and `profiles.ini` to it and clear the Profile Groups cache if Zen makes a fresh profile the default.
 - `paru -S proton-pass-cli` was built but login is blocked for the free Proton account ("account not yet allowed to use our CLI"), so `/pass` in the launcher does nothing until the plan qualifies.
