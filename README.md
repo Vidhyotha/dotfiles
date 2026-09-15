@@ -21,6 +21,7 @@ Nothing is symlinked; every file lives in its normal place.
 - `~/.local/bin/` webapp-launch, webapp-install, hypr-refresh-rate
 - `~/.config/systemd/user/` hypr-refresh-watch.service (watches the ACPI platform profile and reapplies the refresh rate on change)
 - `~/.local/share/applications/` all the `Hidden=true` launcher overrides, WhatsApp entry, btop fix
+- `~/.config/wireplumber/wireplumber.conf.d/bluetooth-a2dp-autoconnect.conf` keeps Bluetooth headsets in A2DP on (re)connect instead of letting WirePlumber flip them into HFP/HSP and churn transports (HFP still engages on demand for the mic)
 - `~/Pictures/Wallpapers/` the wallpaper folder (the noctalia theme derives its palette from the active wallpaper)
 
 Not tracked on purpose: Zen profile (`~/.config/zen/`, contains logins and cookies, restore from backup), `.pki`, `.nv`, `.steam`, `.cargo`, `.cache`, `.npm`, `fish_variables`. Also noctalia-generated outputs (`~/.config/hypr/noctalia.lua`, `~/.config/kitty/themes/noctalia.conf`, `~/.config/gtk-{3,4}.0/settings.ini` and `gtk.css`) — they are rewritten on every theme/mode change, so the templates under `~/.config/noctalia/` are the tracked source of truth.
@@ -72,6 +73,9 @@ git dotfiles push
   `sudo mkfs.ext4 /dev/nvme0n1p1` (or reload the old partition), get the UUID with `blkid`, then
   `UUID=<uuid> /data ext4 defaults,noatime 0 2` in `/etc/fstab`, `sudo mkdir /data`, `sudo mount -a`.
   The previous LUKS partition on it was erased on purpose.
+- Bluetooth/USB stability fixes (system-level, not in git, mirror omarchy):
+  - `/etc/modprobe.d/omarchy-usb-autosuspend.conf`: `options usbcore autosuspend=-1` (disables USB autosuspend globally; the Intel AX201 BT radio sits behind an internal USB port and auto-suspending it drops A2DP/HFP transports).
+  - `/etc/NetworkManager/conf.d/omarchy-wifi-powersave.conf`: `[connection] wifi.powersave = 2` plus live `sudo iw dev wlan0 set power_save off` (combo radio coexistence stability).
 - Data restore from the USB backup: `~/Documents`, `~/Projects` (idleon_clickers, Trading, qmk_firmware), `~/Pictures`, `~/Videos`, `~/PSP`, SplitFiction saves.
 - Zen profile `7onfnvsr.Default (beta)` back to `~/.config/zen/`, repoint `installs.ini` and `profiles.ini` to it and clear the Profile Groups cache if Zen makes a fresh profile the default.
 - `paru -S proton-pass-cli` was built but login is blocked for the free Proton account ("account not yet allowed to use our CLI"), so `/pass` in the launcher does nothing until the plan qualifies.
