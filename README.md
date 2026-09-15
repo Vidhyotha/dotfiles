@@ -74,9 +74,9 @@ git dotfiles push
   `UUID=<uuid> /data ext4 defaults,noatime 0 2` in `/etc/fstab`, `sudo mkdir /data`, `sudo mount -a`.
   The previous LUKS partition on it was erased on purpose.
 - Bluetooth/USB stability fixes (system-level, not in git, mirror omarchy):
-  - `/etc/modprobe.d/omarchy-usb-autosuspend.conf`: `options usbcore autosuspend=-1` (disables USB autosuspend globally; the Intel AX201 BT radio sits behind an internal USB port and auto-suspending it drops A2DP/HFP transports).
+  - Kernel cmdline `usbcore.autosuspend=-1` in `/etc/default/limine` (via `KERNEL_CMDLINE[default]+=`), applied by `sudo limine-update`. This is the real fix for USB autosuspend on the built-in `usbcore` (a modprobe.d drop-in does nothing for it on CachyOS kernels). Disables USB autosuspend globally; the Intel AX201 BT radio and integrated camera sit behind internal USB ports and auto-suspending them drops A2DP/HFP transports and delivers truncated UVC frames.
   - `/etc/NetworkManager/conf.d/omarchy-wifi-powersave.conf`: `[connection] wifi.powersave = 2` plus live `sudo iw dev wlan0 set power_save off` (combo radio coexistence stability).
-  - `/etc/udev/rules.d/50-camera-nosuspend.rules`: SunplusIT integrated camera (5986:215f) set to `power/control=on` permanently — same xHCI root as BT radio; runtime-suspend was delivering truncated UVC frames that Chromium showed as random black flashes. `exposure_dynamic_framerate` also reset to 0 (driver default).
+  - `/etc/udev/rules.d/50-camera-nosuspend.rules`: SunplusIT integrated camera (5986:215f) set to `power/control=on` permanently — same xHCI root as BT radio; runtime-suspend was delivering truncated UVC frames that Chromium showed as random black flashes. Also sets `exposure_dynamic_framerate` to 0 (driver default) on each video0 add.
 - Data restore from the USB backup: `~/Documents`, `~/Projects` (idleon_clickers, Trading, qmk_firmware), `~/Pictures`, `~/Videos`, `~/PSP`, SplitFiction saves.
 - Zen profile `7onfnvsr.Default (beta)` back to `~/.config/zen/`, repoint `installs.ini` and `profiles.ini` to it and clear the Profile Groups cache if Zen makes a fresh profile the default.
 - `paru -S proton-pass-cli` was built but login is blocked for the free Proton account ("account not yet allowed to use our CLI"), so `/pass` in the launcher does nothing until the plan qualifies.
