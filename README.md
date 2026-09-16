@@ -111,7 +111,7 @@ Modifiers are ordered SUPER, SHIFT, ALT, CTRL everywhere.
 Trackpad gestures (inputs.lua): 4-finger horizontal switches workspace, 3-finger up enters fullscreen, 3-finger down exits. 3-finger left and window-close-gesture were removed. No gesture closes or floats windows; use the keys. `natural_scroll` is touchpad-only, mouse stays normal. `scroll_factor = 0.25`.
 
 Workspace animation speed is 1 and the windows animation uses the `quick` bezier (feels instant).
-Display scale is 1.25 (monitors.lua). Rounded corners 0, `gaps_out` 5.
+Display scale is 1 (monitors.lua). Rounded corners 0, `gaps_out` 5.
 
 ## Launcher (Noctalia)
 
