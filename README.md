@@ -168,7 +168,7 @@ No update risk: `plugins update <source>` refreshes git sources by pulling their
 
 ## Known quirks
 
-- Discord on native Wayland and on XWayland both show a stale half-window when the tile shrinks (Hyprland issue #7909, unfixed). Left on XWayland default. Keep other windows out of its workspace.
+- Fractional scaling (1.25x) caused stale/clipped windows on resize across all Wayland apps — Discord, webapps, and XWayland apps alike. This is a Wayland compositor issue with fractional scale damage tracking, not app-specific. Fixed by switching to scale 1.
 - Fastfetch greeting is disabled in `fish/config.fish` (empty `fish_greeting`).
 - Discord is pinned to the primary monitor via windowrules.
 - `SUPER+Q`: unbound by design (close is on `SUPER+W`).
