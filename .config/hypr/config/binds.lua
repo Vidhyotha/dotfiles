@@ -163,3 +163,10 @@ hl.bind(mainMod .. " + CONTROL + mouse_down", hl.dsp.focus({ workspace = "m+1" }
 -- Special workspace (scratchpad)
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special" }), { description = "Move window to scratchpad" })
 hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special(), { description = "Toggle scratchpad" })
+---------------------------
+---- BLUETOOTH RECOVERY ----
+---------------------------
+-- BUG: WhatsApp second call fails (upstream PipeWire/BlueZ transport bug, our btmon
+-- shows HCI clean). Workaround: restart WirePlumber between calls to flush the
+-- stale SCO fd. Tracked: working_notes/BLUETOOTH_HFP_SECOND_CALL.md
+hl.bind("SUPER + B", hl.dsp.exec_cmd("nohup sh -c 'sleep 3 && systemctl --user restart wireplumber' >/dev/null 2>&1 &"), { description = "Restart WirePlumber (flush BT transport)" })
