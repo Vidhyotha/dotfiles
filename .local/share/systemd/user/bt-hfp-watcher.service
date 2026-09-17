@@ -1,0 +1,13 @@
+[Unit]
+Description=Restart WirePlumber after every Bluetooth HFP call (flush stale SCO transport)
+After=wireplumber.service
+Wants=pipewire.service
+
+[Service]
+Type=simple
+ExecStart=/home/vidhyotha/.local/bin/bt-hfp-watcher.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
