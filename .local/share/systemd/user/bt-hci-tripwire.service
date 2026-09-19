@@ -1,0 +1,10 @@
+[Unit]
+Description=BT tripwire: preserve WP's own #5467 verdict when the stale -1>-1 transport re-emit fires
+After=wireplumber.service
+[Service]
+Type=simple
+ExecStart=/home/vidhyotha/.local/bin/bt-hci-tripwire.sh
+Restart=on-failure
+RestartSec=5
+[Install]
+WantedBy=default.target

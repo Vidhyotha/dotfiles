@@ -7,7 +7,7 @@ order = [ "default" ]
     background_opacity = 0.54999998770654202
     capsule_group = []
     center = [ "clock" ]
-    end = [ "spacer_1", "tray", "network", "volume", "notifications", "session" ]
+    end = [ "spacer_1", "tray", "network", "monitor", "volume", "notifications", "session" ]
     radius = 0
     radius_bottom_left = 0
     radius_bottom_right = 0
@@ -33,7 +33,7 @@ widget_order = [ "lockscreen-login-box@eDP-1" ]
     box_height = 196.0
     box_width = 810.0
     cx = 960.0
-    cy = 807.0001220703125
+    cy = 807.00018310546875
     output = "eDP-1"
     placement_height = 1080.0
     placement_width = 1920.0
@@ -59,11 +59,15 @@ widget_order = [ "lockscreen-login-box@eDP-1" ]
 [notification]
 history_retention_hours = 1
 
+[plugin_settings."vidhyotha/hypr-displays"]
+panel_placement = "attached"
+show_text = "icon_only"
+
 [plugin_settings."vidhyotha/keybind-cheatsheet"]
 columns = 1
 
 [plugins]
-enabled = [ "vidhyotha/keybind-cheatsheet" ]
+enabled = [ "vidhyotha/keybind-cheatsheet", "vidhyotha/hypr-displays" ]
 
     [[plugins.source]]
     kind = "git"
@@ -115,3 +119,6 @@ directory = "/home/vidhyotha/Pictures/Wallpapers"
 
     [wallpaper.monitors.eDP-1]
     path = "/home/vidhyotha/Pictures/Wallpapers/tree-tops.webp"
+
+[widget.monitor]
+type = "vidhyotha/hypr-displays:monitor"
