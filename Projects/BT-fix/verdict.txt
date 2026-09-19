@@ -1,0 +1,24 @@
+PipeWire #5467 canonical-fix status (as of 20260919)
+
+Upstream MR: !3004 "bluez5: deal with asynchronous device and node removal"
+  Author     : Pauli Virtanen (WirePlumber/bluez5 maintainer)
+  States     : OPEN, MERGE-BLOCKED (fast-forward not possible, needs rebase)
+               + last dev comment: profile-switch tests flaky, manual testing
+               NOT done. Fix NOT in any packaged pipewire/wireplumber yet.
+  Fix text   : "Also probably fixes: #5467"
+  Mechanism  : async remove_node must not book transport errors — handle
+               spa_bt_transport_events::remove_node in media-sink/source.c
+               by stop+release+drop, and reset stale transport state before
+               re-acquire. (Mirrors our tripwire signature: stale -1->-1
+               re-emit ERRORs both HFP nodes.)
+  Evidence   : bluezenv test_pipewire_profile_switch = 3x profile switch
+               while streaming (TRANSPORT_ERROR_MAX_RETRY) — our exact repro.
+
+Reporter-side state on this machine (vidhyotha@cachyos):
+  - WORKAROUND bt-hfp-watcher : DISARMED (bug free to fire)
+  - TRIPWIRE  bt-hci-tripwire : ARMED + ACTIVE (WirePlumber-journal verdict;
+               preserves failing pair to ~/Projects/BT-fix/preserved/FAIL-*)
+  - Last failing-pair evidence for the MR: handed upstream; see preserved/
+
+If this file's machine is the one feeding the MR: the tripwire catch of a
+fresh FAIL pair IS the missing manual-test data point the dev wants.
