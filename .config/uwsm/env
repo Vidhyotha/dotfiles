@@ -8,6 +8,11 @@ export HYPRCURSOR_SIZE=24
 export XCURSOR_THEME="Bibata-Modern-Ice"
 export XCURSOR_SIZE=24
 
+# X display: Hyprland's built-in Xwayland and niri's xwayland-satellite
+# both use :0, so this works for either session.
+export DISPLAY=:0
+export XWAYLAND_DISPLAY=:0
+
 # If you have an NVIDIA GPU uncommment the following lines
 # export GBM_BACKEND=nvidia-drm # force GBM as a backend
 # export __GLX_VENDOR_LIBRARY_NAME=nvidia # force GBM as a backend

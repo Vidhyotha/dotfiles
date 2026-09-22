@@ -7,11 +7,12 @@ Nothing is symlinked; every file lives in its normal place.
 ## What this tracks
 
 - `~/.config/hypr/` the whole Hyprland Lua config (binds, inputs, animations, monitors, decorations, variables, windowrules, workspaces, autostart, colors, xdph.conf). `noctalia.lua` is noctalia-generated, not tracked.
+- `~/.config/niri/` the niri scrollable-tiling WM config (`config.kdl` mirrors `hypr/config/binds.lua`) plus the `noctalia.kdl` stub (`noctalia.kdl` is noctalia-generated, only the stub is tracked)
 - `~/.config/noctalia/` shell config + the local keybind-cheatsheet plugin fork + `templates/` (the gtk mode template)
 - `~/.local/state/noctalia/settings.toml` live noctalia settings written by the settings panel (bar layout, hot corners, shell fonts, lockscreen widgets, theme/palette/wallpaper scheme). This is the file the panel edits, so it is tracked; the other `~/.local/state/noctalia/` contents (plugin caches, community templates, notification/usage history) are regenerated and untracked.
 - `~/.config/fish/config.fish`
 - `~/.config/environment.d/` locale + TERMINAL
-- `~/.config/uwsm/env` BROWSER var
+- `~/.config/uwsm/env` BROWSER var + DISPLAY/XWAYLAND_DISPLAY (see the Niri session section)
 - `~/.config/kitty/` kitty.conf + theme (the `noctalia.conf` theme file is noctalia-generated, not tracked)
 - `~/.config/mimeapps.list` default apps
 - `~/.config/chromium-flags.conf` + `~/.config/chromium/NativeMessagingHosts/com.omarchy.link_router.json` the link-router `--load-extension` flag and native-messaging manifest
@@ -113,6 +114,42 @@ Trackpad gestures (inputs.lua): 4-finger horizontal switches workspace, 3-finger
 
 Workspace animation speed is 1 and the windows animation uses the `quick` bezier (feels instant).
 Display scale is 1 (monitors.lua). Rounded corners 0, `gaps_out` 5.
+
+## Niri session (tiling WM alongside Hyprland)
+
+A second Wayland session, `niri`, is installed side by side with Hyprland. It is
+selectable from the login screen as "Niri (uwsm-managed)" — the entry lives at
+`/usr/share/wayland-sessions/niri-uwsm.desktop` and it is a system file, so it
+must be recreated after a reinstall:
+
+```ini
+[Desktop Entry]
+Name=Niri (uwsm-managed)
+Comment=A scrollable-tiling Wayland compositor
+Exec=uwsm start -e -D Niri niri.desktop
+TryExec=uwsm
+DesktopNames=Niri
+Type=Application
+```
+
+Packages installed for this: `niri` and `xwayland-satellite` (both from the CachyOS repos).
+
+- Config: `~/.config/niri/config.kdl` mirrors `binds.lua` as closely as the
+  scrollable-column model allows (workspaces are per-monitor, movement is
+  up/down within a column and left/right between columns). Noctalia writes the
+  theme colors into `~/.config/niri/noctalia.kdl` (the include is wired up; only
+  a stub is tracked).
+- Xwayland is provided by `xwayland-satellite` (third-party X server), started
+  from the niri config. `~/.config/uwsm/env` sets `DISPLAY=:0` and
+  `XWAYLAND_DISPLAY=:0`, which is also what Hyprland's built-in Xwayland uses,
+  so the env is shared safely.
+- Binds with no niri equivalent are deliberately not ported: scratchpad
+  (`SUPER+S`), universal copy/paste (`SUPER+C`/`SUPER+V`), cursor zoom
+  (`SUPER+Plus/Minus`), and the monitor-index binds (`MONITOR2/3` are unset, so
+  they were no-ops in Hyprland anyway). `SUPER+J` (Hyprland togglesplit) becomes
+  `toggle-column-tabbed-display`.
+- Noctalia and the xhost rule start from `spawn-at-startup` lines in
+  `config.kdl` (the Hyprland equivalents live in `config/autostart.lua`).
 
 ## Launcher (Noctalia)
 
