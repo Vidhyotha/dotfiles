@@ -10,6 +10,13 @@
 hl.monitor({
     output    = MONITOR1,
     mode      = "preferred",
-    position  = "auto",
+    position  = "0x0",
+    scale     = "1",
+})
+
+hl.monitor({
+    output    = MONITOR2,
+    mode      = "preferred",
+    position  = "auto-right",
     scale     = "1",
 })
